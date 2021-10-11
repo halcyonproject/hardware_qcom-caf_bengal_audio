@@ -2530,7 +2530,6 @@ int audio_extn_utils_compress_get_dsp_latency(struct stream_out *out)
         }
 
         metadata.key = SNDRV_COMPRESS_PATH_DELAY;
-        ret = compress_get_metadata(out->compr, &metadata);
         if(ret) {
             ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
             goto exit;
@@ -2579,7 +2578,6 @@ int audio_extn_utils_compress_set_render_mode(struct stream_out *out)
         ret = 0;
         goto exit;
     }
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
     }
@@ -2645,7 +2643,6 @@ int audio_extn_utils_compress_set_clk_rec_mode(
 
     ALOGD("%s:: clk recovery mode %d",__func__, metadata.value[0]);
 
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
     }
@@ -2707,7 +2704,6 @@ int audio_extn_utils_compress_set_render_window(
     metadata.value[3] = \
             (0xFFFFFFFF00000000 & render_window->render_we) >> 32; /* msb*/
 
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
     }
@@ -2764,7 +2760,6 @@ int audio_extn_utils_compress_set_start_delay(
     metadata.value[1] = \
             (0xFFFFFFFF00000000 & delay_param->start_delay) >> 32; /* msb*/
 
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
     }
@@ -2794,7 +2789,6 @@ int audio_extn_utils_compress_get_dsp_presentation_pos(struct stream_out *out,
     ALOGV("%s:: Quering DSP position with clock id %d",__func__, clock_id);
     metadata.key = SNDRV_COMPRESS_DSP_POSITION;
     metadata.value[0] = clock_id;
-    ret = compress_get_metadata(out->compr, &metadata);
     if (ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
         ret = -errno;
@@ -3038,7 +3032,6 @@ int audio_extn_utils_compress_enable_drift_correction(
     metadata.value[0] = drift->enable;
     out->drift_correction_enabled = drift->enable;
 
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret) {
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
         out->drift_correction_enabled = false;
@@ -3093,7 +3086,6 @@ int audio_extn_utils_compress_correct_drift(
     metadata.value[1] = \
              (0xFFFFFFFF00000000 & drift_param->adjust_time) >> 32; /* msb*/
 
-    ret = compress_set_metadata(out->compr, &metadata);
     if(ret)
         ALOGE("%s::error %s", __func__, compress_get_error(out->compr));
 exit:
